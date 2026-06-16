@@ -1,0 +1,150 @@
+{% extends 'admin/home.html' %}
+{% block content %}
+
+<style>
+
+.card-box{
+    background:white;
+    padding:25px;
+    border-radius:18px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.05);
+}
+
+.top-bar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+    flex-wrap:wrap;
+    gap:15px;
+}
+
+.btn{
+    padding:10px 14px;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:600;
+    color:white;
+}
+
+.btn-primary{ background:#0d6efd; }
+.btn-primary:hover{ background:#0b5ed7; }
+
+.btn-view{ background:#0f172a; }
+.btn-edit{ background:#2563eb; }
+.btn-delete{ background:#dc2626; }
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:800px;
+}
+
+th{
+    background:#0f172a;
+    color:white;
+    padding:14px;
+    text-align:left;
+}
+
+td{
+    padding:14px;
+    border-bottom:1px solid #eee;
+}
+
+.badge{
+    background:#e2e8f0;
+    padding:5px 10px;
+    border-radius:8px;
+    font-size:12px;
+}
+
+.actions{
+    display:flex;
+    gap:8px;
+}
+
+</style>
+
+<div class="card-box">
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+
+        <h3>Liste des AV</h3>
+
+        <!-- 🔥 BOUTON AJOUT AV -->
+        <a href="{% url 'SuiviApp:av_create' %}" class="btn btn-primary">
+            + Ajouter AV
+        </a>
+
+    </div>
+
+    <!-- TABLE -->
+    <table>
+
+        <thead>
+            <tr>
+                <th>Num AV</th>
+                <th>Importateur</th>
+                <th>Produits</th>
+                <th>Valeur approuvée</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% for item in data %}
+
+            <tr>
+
+                <td>{{ item.num_av }}</td>
+
+                <td>{{ item.importateur.nom }}</td>
+
+                <td>
+                    <span class="badge">
+                        {{ item.produits.all|length }} produit(s)
+                    </span>
+                </td>
+
+                <td>{{ item.valeurApprouvee }}</td>
+
+                <td>
+
+                    <div class="actions">
+
+                        <a href="{% url 'SuiviApp:av_detail' item.id %}" class="btn btn-view">
+                            Voir
+                        </a>
+
+                        <a href="{% url 'SuiviApp:av_update' item.id %}" class="btn btn-edit">
+                            Modifier
+                        </a>
+
+                        <a href="{% url 'SuiviApp:av_delete' item.id %}" class="btn btn-delete">
+                            Supprimer
+                        </a>
+
+                    </div>
+
+                </td>
+
+            </tr>
+
+            {% empty %}
+
+            <tr>
+                <td colspan="5">Aucun AV trouvé</td>
+            </tr>
+
+            {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

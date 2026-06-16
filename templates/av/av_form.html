@@ -1,0 +1,121 @@
+{% extends 'admin/home.html' %}
+{% block content %}
+
+<style>
+
+.form-box{
+    max-width:1000px;
+    margin:auto;
+    background:white;
+    padding:30px;
+    border-radius:18px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.05);
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+}
+
+label{
+    margin-bottom:8px;
+    font-weight:600;
+    display:block;
+}
+
+input, select{
+    height:48px;
+    border-radius:10px;
+    width:100%;
+    border:1px solid #ddd;
+    padding:10px;
+    box-sizing:border-box;
+}
+
+@media(max-width:768px){
+    .grid{
+        grid-template-columns:1fr;
+    }
+}
+
+</style>
+
+<div class="form-box">
+
+    <h3 class="mb-4">{{ title }}</h3>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        {{ form.errors }}
+
+        <div class="grid">
+
+            <!-- IMPORTATEUR -->
+            <div>
+                <label>Importateur</label>
+                {{ form.importateur }}
+            </div>
+
+            <!-- NUM AV -->
+            <div>
+                <label>Numéro AV</label>
+                {{ form.num_av }}
+            </div>
+
+            <!-- NIF -->
+            <div>
+                <label>NIF</label>
+                {{ form.num_nif }}
+            </div>
+
+            <!-- LICENCE -->
+            <div>
+                <label>Licence</label>
+                {{ form.license }}
+            </div>
+
+            <!-- DATE VALIDATION -->
+            <div>
+                <label>Date Validation</label>
+                {{ form.dateValidation }}
+            </div>
+
+            <!-- VALEUR APPROUVÉE -->
+            <div>
+                <label>Valeur Approuvée</label>
+                {{ form.valeurApprouvee }}
+            </div>
+
+        </div>
+
+        <!-- ========================= -->
+        <!-- INFO ERP IMPORTANT -->
+        <!-- ========================= -->
+        <div style="
+            margin-top:20px;
+            padding:15px;
+            background:#f8fafc;
+            border-radius:12px;
+            border-left:5px solid #3b82f6;
+        ">
+
+            <b>📦 Gestion ERP</b>
+
+            <p style="margin:0; color:#6b7280;">
+                Les produits ne sont plus créés ici.<br>
+                Après création de l'AV, vous devez ajouter les produits dans la section AVProduit.
+            </p>
+
+        </div>
+
+        <button class="btn btn-primary w-100 mt-4">
+            Enregistrer AV
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

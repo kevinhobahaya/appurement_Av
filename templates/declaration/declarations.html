@@ -1,0 +1,342 @@
+{% extends 'admin/home.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+
+/* ===== CARD ===== */
+.card-box{
+    background: white;
+    padding: 25px;
+    border-radius: 18px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+}
+
+/* ===== TOP BAR ===== */
+.top-bar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.top-bar h3{
+    font-size: 22px;
+    font-weight: bold;
+    color: #0f172a;
+}
+
+/* ===== SEARCH ===== */
+.search-form{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.search-input{
+    height: 42px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 0 12px;
+    outline: none;
+}
+
+.search-input:focus{
+    border-color: #0d6efd;
+    box-shadow: 0 0 0 3px rgba(13,110,253,0.15);
+}
+
+/* ===== BUTTONS ===== */
+.btn{
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-primary{ background:#0d6efd; color:white; }
+.btn-primary:hover{ background:#0b5ed7; }
+
+.btn-dark{ background:#0f172a; color:white; }
+
+/* ===== TABLE ===== */
+.table-responsive{ overflow-x:auto; }
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:800px;
+}
+
+thead{
+    background:#0f172a;
+    color:white;
+}
+
+th{
+    padding:14px;
+    text-align:left;
+    font-size:14px;
+}
+
+td{
+    padding:14px;
+    border-bottom:1px solid #eee;
+    font-size:14px;
+    color:#334155;
+}
+
+tbody tr:hover{
+    background:#f8fafc;
+}
+
+/* ===== ACTIONS ===== */
+.actions{
+    display:flex;
+    gap:8px;
+}
+
+.btn-action{
+    padding:7px 12px;
+    border-radius:8px;
+    font-size:13px;
+    text-decoration:none;
+    color:white;
+    font-weight:600;
+}
+
+.btn-view{ background:#0f172a; }
+.btn-edit{ background:#2563eb; }
+.btn-delete{ background:#dc2626; }
+
+/* ===== VALUE ===== */
+.badge-value{
+    font-weight:700;
+    color:#0f172a;
+}
+
+.pagination-box{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:8px;
+    margin-top:25px;
+    flex-wrap:wrap;
+}
+
+.pagination-box a,
+.pagination-box span{
+    min-width:40px;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0 12px;
+    border-radius:10px;
+    font-weight:600;
+    font-size:14px;
+}
+
+.pagination-box a{
+    background:white;
+    border:1px solid #e5e7eb;
+    color:#0f172a;
+    transition:0.2s;
+    text-decoration:none;
+}
+
+.pagination-box a:hover{
+    background:#2563eb;
+    color:white;
+    border-color:#2563eb;
+}
+
+.pagination-box .active{
+    background:#2563eb;
+    color:white;
+}
+
+.pagination-info{
+    text-align:center;
+    margin-top:10px;
+    color:#64748b;
+    font-size:14px;
+}
+@media(max-width:768px){
+    .top-bar{ flex-direction:column; align-items:flex-start; }
+    .search-form{ width:100%; flex-direction:column; }
+    .search-input{ width:100%; }
+    table{ min-width:650px; }
+}
+
+</style>
+
+<div class="card-box">
+
+    <!-- TOP BAR -->
+    <div class="top-bar">
+
+        <h3>Déclarations (ERP)</h3>
+
+        <div class="d-flex gap-2">
+
+            <form method="GET" class="search-form">
+
+                <input type="text"
+                       name="search"
+                       value="{{ search|default:'' }}"
+                       class="search-input"
+                       placeholder="Recherche..." />
+
+                <button class="btn btn-dark">
+                    Rechercher
+                </button>
+
+            </form>
+
+            <a href="{% url 'SuiviApp:declaration_create' %}"
+               class="btn btn-primary">
+                Ajouter
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- TABLE -->
+    <div class="table-responsive">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Article</th>
+                    <th>Quantité</th>
+                    <th>Prix unitaire</th>
+                    <th>Valeur totale</th>
+                    <th>AV</th>
+                    <th>Produit AV</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for item in data %}
+
+                <tr>
+
+                    <td>{{ item.article }}</td>
+
+                    <td>{{ item.quantite }}</td>
+
+                    <td>{{ item.prixUnitaire }}</td>
+
+                    <td class="badge-value">
+                        {{ item.valeur_totale }}
+                    </td>
+
+                    <!-- AV -->
+                    <td>{{ item.av_produit.av.num_av }}</td>
+
+                    <!-- PRODUIT AV -->
+                    <td>{{ item.av_produit.produit }}</td>
+
+                    <td>
+                        <div class="actions">
+
+                            <a href="{% url 'SuiviApp:declaration_detail' item.uuid %}"
+                               class="btn-action btn-view">
+                                Voir
+                            </a>
+
+                            <a href="{% url 'SuiviApp:declaration_update' item.uuid %}"
+                               class="btn-action btn-edit">
+                                Modifier
+                            </a>
+
+                            <a href="{% url 'SuiviApp:declaration_delete' item.uuid %}"
+                               class="btn-action btn-delete">
+                                Supprimer
+                            </a>
+
+                        </div>
+                    </td>
+
+                </tr>
+
+                {% empty %}
+                <tr>
+                    <td colspan="7">Aucune déclaration trouvée</td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+    
+
+ <!-- PAGINATION -->
+<!-- PAGINATION PRO -->
+{% if data.paginator.num_pages > 1 %}
+
+<div class="pagination-box">
+
+    <!-- FIRST -->
+    {% if data.has_previous %}
+        <a href="?page=1&search={{ search }}">«</a>
+        <a href="?page={{ data.previous_page_number }}&search={{ search }}">Précédent</a>
+    {% endif %}
+
+    <!-- LEFT ... -->
+    {% if data.number > 3 %}
+        <a href="?page=1&search={{ search }}">1</a>
+        <span>...</span>
+    {% endif %}
+
+    <!-- NUMBERS AROUND CURRENT -->
+    {% for num in data.paginator.page_range %}
+
+        {% if num >= data.number|add:'-2' and num <= data.number|add:'2' %}
+
+            {% if num == data.number %}
+                <span class="active">{{ num }}</span>
+            {% else %}
+                <a href="?page={{ num }}&search={{ search }}">{{ num }}</a>
+            {% endif %}
+
+        {% endif %}
+
+    {% endfor %}
+
+    <!-- RIGHT ... -->
+    {% if data.number < data.paginator.num_pages|add:'-2' %}
+        <span>...</span>
+        <a href="?page={{ data.paginator.num_pages }}&search={{ search }}">
+            {{ data.paginator.num_pages }}
+        </a>
+    {% endif %}
+
+    <!-- NEXT -->
+    {% if data.has_next %}
+        <a href="?page={{ data.next_page_number }}&search={{ search }}">Suivant</a>
+        <a href="?page={{ data.paginator.num_pages }}&search={{ search }}">»</a>
+    {% endif %}
+
+</div>
+
+<div class="pagination-info">
+    Page {{ data.number }} sur {{ data.paginator.num_pages }}
+    • {{ data.paginator.count }} éléments
+</div>
+
+{% endif %}
+</div>
+
+{% endblock %}

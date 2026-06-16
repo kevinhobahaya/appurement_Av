@@ -1,0 +1,23 @@
+{% extends 'admin/home.html' %}
+{% block content %}
+
+<div style="max-width:800px;margin:auto;background:white;padding:25px;border-radius:15px;">
+
+    <h3>Détail Produit AV</h3>
+
+    <p><b>AV :</b> {{ produit.av.num_av }}</p>
+    <p><b>Importateur :</b> {{ produit.av.importateur.nom }}</p>
+
+    <hr>
+
+    <p><b>Produit :</b> {{ produit.produit }}</p>
+    <p><b>Quantité :</b> {{ produit.quantite }}</p>
+    <p><b>Prix unitaire :</b> {{ produit.prix_unitaire }}</p>
+
+    <p><b>Valeur initiale :</b>
+        {{ produit.quantite|floatformat:2 }} × {{ produit.prix_unitaire|floatformat:2 }}
+    </p>
+
+</div>
+
+{% endblock %}

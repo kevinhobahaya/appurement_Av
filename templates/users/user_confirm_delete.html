@@ -1,0 +1,29 @@
+{% extends "admin/home.html" %}
+{% block content %}
+
+<div class="card-box">
+
+    <h3>Supprimer utilisateur</h3>
+
+    <p>Voulez-vous vraiment supprimer :</p>
+
+    <strong>{{ user.username }}</strong>
+
+    <br><br>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <a href="{% url 'SuiviApp:user_list' %}" class="btn btn-secondary">
+            Annuler
+        </a>
+
+        <button class="btn btn-danger">
+            Supprimer
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

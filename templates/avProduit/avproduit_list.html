@@ -1,0 +1,202 @@
+{% extends 'admin/home.html' %}
+{% block content %}
+
+<style>
+
+.card-box{
+    background:white;
+    padding:25px;
+    border-radius:18px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.05);
+    max-width:1000px;
+    margin:auto;
+}
+
+.top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    background:#0f172a;
+    color:white;
+    padding:12px;
+}
+
+td{
+    padding:12px;
+    border-bottom:1px solid #eee;
+}
+
+.btn{
+    padding:8px 12px;
+    border-radius:8px;
+    text-decoration:none;
+    color:white;
+    font-size:13px;
+}
+
+.btn-add{background:#0d6efd;}
+
+.btn-view{background:#0f172a;}
+
+.badge{
+    background:#e2e8f0;
+    padding:5px 10px;
+    border-radius:8px;
+    font-size:12px;
+}
+
+/* pagination */
+.pagination-box{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:8px;
+    margin-top:25px;
+    flex-wrap:wrap;
+}
+
+.pagination-box a,
+.pagination-box span{
+    min-width:40px;
+    height:40px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:0 12px;
+    border-radius:10px;
+    font-weight:600;
+    font-size:14px;
+    text-decoration:none;
+}
+
+.pagination-box a{
+    background:white;
+    border:1px solid #e5e7eb;
+    color:#0f172a;
+}
+
+.pagination-box a:hover{
+    background:#2563eb;
+    color:white;
+    border-color:#2563eb;
+}
+
+.pagination-box .active{
+    background:#2563eb;
+    color:white;
+}
+
+.pagination-info{
+    text-align:center;
+    margin-top:10px;
+    color:#64748b;
+    font-size:14px;
+}
+
+</style>
+
+<div class="card-box">
+
+    <div class="top">
+
+        <h3>Liste AV Produits</h3>
+
+        <a href="{% url 'SuiviApp:av_produit_create' %}" class="btn btn-add">
+            + Ajouter
+        </a>
+
+    </div>
+
+    <table>
+
+        <thead>
+            <tr>
+                <th>AV</th>
+                <th>Importateur</th>
+                <th>Produit</th>
+                <th>Quantité totale</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+        {% for p in produits %}
+
+            <tr>
+                <td>{{ p.av.num_av }}</td>
+                <td>{{ p.av.importateur.nom }}</td>
+                <td>{{ p.produit }}</td>
+                <td>
+                    <span class="badge">
+                        {{ p.quantite }}
+                    </span>
+                </td>
+
+                <td>
+                    <!-- VIEW BUTTON -->
+                    <a href="{% url 'SuiviApp:av_produit_detail' p.uuid %}"
+                       class="btn btn-view">
+                        <i class="bi bi-eye"></i> Voir
+                    </a>
+                </td>
+            </tr>
+
+        {% empty %}
+
+            <tr>
+                <td colspan="5">Aucun produit</td>
+            </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+    <!-- PAGINATION PRO -->
+    {% if produits.paginator.num_pages > 1 %}
+
+    <div class="pagination-box">
+
+        {% if produits.has_previous %}
+            <a href="?page=1">«</a>
+            <a href="?page={{ produits.previous_page_number }}">Précédent</a>
+        {% endif %}
+
+        {% for num in produits.paginator.page_range %}
+
+            {% if num == produits.number %}
+                <span class="active">{{ num }}</span>
+            {% else %}
+                <a href="?page={{ num }}">{{ num }}</a>
+            {% endif %}
+
+        {% endfor %}
+
+        {% if produits.has_next %}
+            <a href="?page={{ produits.next_page_number }}">Suivant</a>
+            <a href="?page={{ produits.paginator.num_pages }}">»</a>
+        {% endif %}
+
+    </div>
+
+    <div class="pagination-info">
+        Page {{ produits.number }} sur {{ produits.paginator.num_pages }}
+        • {{ produits.paginator.count }} éléments
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

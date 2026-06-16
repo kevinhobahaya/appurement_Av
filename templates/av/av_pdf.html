@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <style>
+
+        body{
+            font-family: Arial;
+            font-size: 12px;
+            color: black;
+        }
+
+        h3{
+            text-align:center;
+            background:#198754;
+            color:white;
+            padding:10px;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            margin-top:20px;
+        }
+
+        th{
+            background:black;
+            color:white;
+            padding:8px;
+            border:1px solid #ddd;
+        }
+
+        td{
+            border:1px solid #ddd;
+            padding:6px;
+            text-align:center;
+        }
+
+        .footer{
+            margin-top:40px;
+            text-align:center;
+            font-weight:bold;
+        }
+
+        .name{
+            text-decoration:underline;
+        }
+
+        @page {
+            size: A4;
+            margin: 15mm;
+            }
+
+        thead { display: table-header-group; }
+
+    </style>
+
+</head>
+
+<body>
+
+<h3>📦 ÉTAT DE SORTIE APPUREMENT</h3>
+
+<table>
+
+    <thead>
+        <tr>
+            <th>N°</th>
+            <th>N° AV</th>
+            <th>Produit</th>
+            <th>Quantité</th>
+            <th>Bureau</th>
+            <th>FOB</th>
+            <th>CIF</th>
+            <th>Appurement</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        {% for p in av.produits.all %}
+
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ av.num_av }}</td>
+            <td>{{ p.produit }}</td>
+            <td>{{ p.quantite }}</td>
+
+            <td>
+                {% for d in p.declarations.all %}
+                    {{ d.bureauDouane }}<br>
+                {% empty %}
+                    -
+                {% endfor %}
+            </td>
+
+            <td>{{ p.valeur_initiale }}</td>
+            <td>{{ p.valeur_initiale }}</td>
+            <td>{{ av.valeur_restante }}</td>
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
+<div class="footer">
+
+    <div>BUREAU 614B : 04 DECLARATIONS</div>
+    <div>BUREAU 617B : 02 DECLARATIONS</div>
+
+    <br>
+
+    <div>Le Chef de Bureau Guichet Unique</div>
+    <div class="name">David MUHINDO LUSENGE</div>
+    <div>CS2</div>
+
+</div>
+
+</body>
+</html>

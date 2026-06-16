@@ -1,0 +1,177 @@
+{% extends 'admin/structure.html' %}
+{% block content %}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style>
+
+.container{
+    max-width:1200px;
+    margin:auto;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:15px;
+    margin-bottom:20px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.05);
+}
+
+.header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.title{
+    font-size:22px;
+    font-weight:bold;
+}
+
+.badge{
+    padding:6px 12px;
+    border-radius:8px;
+    color:white;
+    font-weight:bold;
+    font-size:12px;
+}
+
+.green{background:#16a34a;}
+.orange{background:#f59e0b;}
+.red{background:#dc2626;}
+
+.progress-bar{
+    height:14px;
+    background:#eee;
+    border-radius:10px;
+    margin-top:10px;
+}
+
+.progress{
+    height:100%;
+    border-radius:10px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+@media(max-width:800px){
+    .grid{grid-template-columns:1fr;}
+}
+
+</style>
+
+<div class="container">
+
+    <h2>📊 Dashboard ERP AV</h2>
+
+    <!-- GRAPH GLOBAL -->
+    <div class="card">
+        <canvas id="erpChart"></canvas>
+    </div>
+
+    <!-- LIST AV -->
+    {% for item in data %}
+
+    <div class="card">
+
+        <div class="header">
+
+            <div class="title">
+                AV {{ item.av.num_av }}
+            </div>
+
+            <div class="badge {{ item.color }}">
+                {{ item.statut }}
+            </div>
+
+        </div>
+
+        <!-- progress -->
+        <div class="progress-bar">
+            <div class="progress {{ item.color }}"
+                 style="width:{{ item.progress }}%;background:currentColor;">
+            </div>
+        </div>
+
+        <p>{{ item.progress }}% consommé</p>
+
+        <div class="grid">
+
+            <div>
+                <b>Total</b><br>
+                {{ item.total }}
+            </div>
+
+            <div>
+                <b>Consommé</b><br>
+                {{ item.consomme }}
+            </div>
+
+        </div>
+
+    </div>
+
+    {% endfor %}
+
+</div>
+
+<!-- =========================
+     CHART JS
+========================= -->
+<script>
+
+const ctx = document.getElementById('erpChart');
+
+const labels = [
+    {% for item in data %}
+        "{{ item.av.num_av }}",
+    {% endfor %}
+];
+
+const consommé = [
+    {% for item in data %}
+        {{ item.consomme }},
+    {% endfor %}
+];
+
+const restant = [
+    {% for item in data %}
+        {{ item.restant }},
+    {% endfor %}
+];
+
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: labels,
+        datasets: [
+            {
+                label: 'Consommé',
+                data: consommé,
+                backgroundColor: '#dc2626'
+            },
+            {
+                label: 'Restant',
+                data: restant,
+                backgroundColor: '#16a34a'
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'top'
+            }
+        }
+    }
+});
+
+</script>
+
+{% endblock %}

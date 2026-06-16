@@ -1,0 +1,27 @@
+
+/* ===== SIDEBAR FIX ===== */
+.sidebar{
+    width:260px;
+    height:100vh;
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:1000;
+}
+
+/* ===== CONTENT FIX ===== */
+.content{
+    margin-left:260px;
+    padding:30px;
+    overflow-x:hidden; /* empêche débordement horizontal */
+}
+
+/* ===== TABLE FIX ===== */
+.table-responsive{
+    overflow-x:auto;
+}
+
+.modern-table{
+    width:100%;
+    min-width:600px; /* évite qu'il s'écrase */
+}

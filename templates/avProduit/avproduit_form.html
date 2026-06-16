@@ -1,0 +1,62 @@
+{% extends 'admin/home.html' %}
+{% block content %}
+
+<style>
+.form-box{
+    max-width:800px;
+    margin:auto;
+    background:white;
+    padding:25px;
+    border-radius:18px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.05);
+}
+
+label{
+    font-weight:600;
+    margin-bottom:6px;
+    display:block;
+}
+
+input{
+    width:100%;
+    height:45px;
+    border-radius:10px;
+    border:1px solid #ddd;
+    padding:10px;
+    margin-bottom:15px;
+}
+</style>
+
+<div class="form-box">
+
+    <h3>{{ title }}</h3>
+
+    <!-- <p><b>AV :</b> {{ av.num_av }}</p> -->
+
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+        <label>AV</label>
+        {{ form.av }}
+        </div>
+        <div class="form-group">
+             <label>Produit</label>
+        {{ form.produit }}
+
+        </div>
+           
+        <label>Quantité</label>
+        {{ form.quantite }}
+
+        <label>Prix unitaire</label>
+        {{ form.prix_unitaire }}
+
+        <button style="width:100%;padding:12px;background:#0d6efd;color:white;border:none;border-radius:10px;">
+            Enregistrer
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

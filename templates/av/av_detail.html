@@ -1,0 +1,109 @@
+{% extends 'admin/home.html' %}
+{% block content %}
+
+<div class="card-box">
+
+    <!-- ================= HEADER ================= -->
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+        <h2>Détail AV</h2>
+
+        <div>
+
+            <!-- ✅ EXPORT PDF CORRIGÉ -->
+            {% if av.id %}
+                <a href="{% url 'SuiviApp:appurement_av_pdf' av.uuid %}"
+                   style="padding:8px 12px; background:blue; color:white; text-decoration:none; border-radius:5px;">
+                    Télécharger PDF
+                </a>
+            {% else %}
+                <span style="color:red;">AV ID manquant</span>
+            {% endif %}
+
+            <!-- PRINT -->
+            
+
+        </div>
+    </div>
+
+    <hr>
+
+    <!-- ================= INFOS AV ================= -->
+    <p><b>Num AV :</b> {{ av.num_av }}</p>
+    <p><b>Importateur :</b> {{ av.importateur.nom }}</p>
+
+    <p><b>Valeur approuvée :</b> {{ av.valeurApprouvee }}</p>
+    <p><b>Valeur consommée :</b> {{ av.valeur_consomme }}</p>
+    <p><b>Appurement (reste AV) :</b> {{ av.valeur_restante }}</p>
+
+    <hr>
+
+    <!-- ================= PRODUITS ================= -->
+    <h3>Produits AV</h3>
+
+    <table class="table table-bordered">
+
+        <thead>
+            <tr>
+                <th>Produit</th>
+                <th>Quantité initiale</th>
+                <th>Quantité restante</th>
+                <th>Prix unitaire</th>
+                <th>Valeur initiale</th>
+                <th>Valeur consommée</th>
+                <th>Valeur restante</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for p in av.produits.all %}
+            <tr>
+                <td>{{ p.produit }}</td>
+                <td>{{ p.quantite }}</td>
+                <td>{{ p.quantite_restante }}</td>
+                <td>{{ p.prix_unitaire }}</td>
+                <td>{{ p.valeur_initiale }}</td>
+                <td>{{ p.valeur_consomme }}</td>
+                <td>{{ p.valeur_restante }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="7">Aucun produit</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+
+    <hr>
+
+    <!-- ================= ETAT DE SORTIE ================= -->
+    
+
+</div>
+
+<!-- ================= PRINT STYLE ================= -->
+<style>
+@media print {
+    .btn,
+    .sidebar,
+    .topbar {
+        display: none !important;
+    }
+
+    .card-box {
+        box-shadow: none;
+        border: none;
+    }
+
+    table {
+        font-size: 12px;
+    }
+
+    th {
+        background: black !important;
+        color: white !important;
+    }
+}
+</style>
+
+{% endblock %}

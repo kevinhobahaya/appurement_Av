@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: suiviav
+    runtime: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn SuiviAv.wsgi:application"

@@ -1,0 +1,79 @@
+{% extends 'admin/home.html' %}
+{% block content %}
+
+<div class="card-box">
+<h1 style="color:red">TEST PAGE AV LIST OK</h1>
+    <!-- TOP BAR -->
+    <div class="top-bar">
+
+        <h3>Liste des AV</h3>
+
+        <!-- 🔥 BOUTON AJOUT AV (CORRIGÉ) -->
+        <a href="{% url 'SuiviApp:av_create' %}"
+        style="display:inline-block;padding:10px 15px;background:red;color:white;"></a> class="btn btn-primary">
+            
+            + Ajouter AV
+        </a>
+
+    </div>
+
+    <!-- TABLE -->
+    <table style="width:100%;margin-top:20px;">
+
+        <thead>
+            <tr>
+                <th>Num AV</th>
+                <th>Importateur</th>
+                <th>Valeur approuvée</th>
+                <th>Produits</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+        {% for item in data %}
+
+            <tr>
+
+                <td>{{ item.num_av }}</td>
+                <td>{{ item.importateur.nom }}</td>
+                <td>{{ item.valeurApprouvee }}</td>
+
+                <td>
+                    {{ item.produits.count }} produit(s)
+                </td>
+
+                <td style="display:flex;gap:8px;">
+
+                    <a href="{% url 'SuiviApp:av_detail' item.id %}">
+                        Voir
+                    </a>
+
+                    <a href="{% url 'SuiviApp:av_update' item.id %}">
+                        Modifier
+                    </a>
+
+                    <a href="{% url 'SuiviApp:av_delete' item.id %}">
+                        Supprimer
+                    </a>
+
+                </td>
+
+            </tr>
+
+        {% empty %}
+
+            <tr>
+                <td colspan="5">Aucun AV trouvé</td>
+            </tr>
+
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,241 @@
+{% extends 'admin/home.html' %}
+{% block content %}
+
+<style>
+
+.container-box{
+    max-width:1000px;
+    margin:auto;
+}
+
+/* HEADER CARD */
+.header-card{
+    background:white;
+    padding:20px 25px;
+    border-radius:18px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.05);
+    margin-bottom:20px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:15px;
+}
+
+.header-title h3{
+    margin:0;
+    font-size:20px;
+    font-weight:bold;
+}
+
+.header-title small{
+    color:#64748b;
+}
+
+/* PDF BUTTON */
+.btn-pdf{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:#dc2626;
+    color:white;
+    padding:10px 14px;
+    border-radius:10px;
+    text-decoration:none;
+    font-weight:600;
+    box-shadow:0 3px 10px rgba(0,0,0,0.1);
+    transition:0.2s;
+}
+
+.btn-pdf:hover{
+    background:#b91c1c;
+    color:white;
+    transform:translateY(-1px);
+}
+
+/* CARDS */
+.card{
+    background:white;
+    padding:25px;
+    border-radius:18px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.05);
+    margin-bottom:20px;
+}
+
+.title{
+    font-size:18px;
+    font-weight:bold;
+    margin-bottom:15px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:15px;
+}
+
+.box{
+    background:#f8fafc;
+    padding:15px;
+    border-radius:12px;
+}
+
+/* TABLE */
+table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+th{
+    background:#0f172a;
+    color:white;
+    padding:10px;
+}
+
+td{
+    padding:10px;
+    border-bottom:1px solid #eee;
+}
+
+.badge{
+    background:#e2e8f0;
+    padding:5px 10px;
+    border-radius:8px;
+}
+
+@media(max-width:768px){
+    .grid{
+        grid-template-columns:1fr;
+    }
+
+    .header-card{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+}
+
+</style>
+
+<div class="container-box">
+
+    <!-- HEADER + BUTTON -->
+    <div class="header-card">
+
+        <div class="header-title">
+            <h3>Détail AV Produit</h3>
+            <small>Suivi complet des consommations et déclarations</small>
+        </div>
+
+        <a href="{% url 'SuiviApp:av_produit_pdf' produit.uuid %}"
+           class="btn-pdf">
+
+            <i class="bi bi-file-earmark-pdf"></i>
+            Export PDF
+
+        </a>
+
+    </div>
+
+    <!-- AV INFO -->
+    <div class="card">
+
+        <div class="title">Informations générales</div>
+
+        <div class="grid">
+
+            <div class="box">
+                <b>AV :</b> {{ produit.av.num_av }}
+            </div>
+
+            <div class="box">
+                <b>Importateur :</b> {{ produit.av.importateur.nom }}
+            </div>
+
+            <div class="box">
+                <b>Produit :</b> {{ produit.produit }}
+            </div>
+
+            <div class="box">
+                <b>Quantité :</b> {{ produit.quantite }}
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- STAT -->
+    <div class="card">
+
+        <div class="title">Suivi des consommations</div>
+
+        <div class="grid">
+
+            <div class="box">
+                <b>Quantité declarée :</b>
+                {{ produit.quantite_consomme }}
+            </div>
+
+            <div class="box">
+                <b>Quantité restante :</b>
+                {{ produit.quantite_restante }}
+            </div>
+
+            <div class="box">
+                <b>Valeur initiale :</b>
+                {{ produit.valeur_initiale }}
+            </div>
+
+            <div class="box">
+                <b>Valeur declarée :</b>
+                {{ produit.valeur_consomme }}
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- DECLARATIONS -->
+    <div class="card">
+
+        <div class="title">Déclarations liées</div>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Article</th>
+                    <th>Quantité</th>
+                    <th>Prix</th>
+                    <th>Valeur</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for d in declarations %}
+
+                <tr>
+                    <td>{{ d.article }}</td>
+                    <td>{{ d.quantite }}</td>
+                    <td>{{ d.prixUnitaire }}</td>
+                    <td>{{ d.valeur_totale }}</td>
+                </tr>
+
+                {% empty %}
+
+                <tr>
+                    <td colspan="4">Aucune déclaration</td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

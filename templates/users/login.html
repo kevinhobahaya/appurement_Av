@@ -1,0 +1,134 @@
+<style>
+
+.login-container{
+    max-width:420px;
+    margin:80px auto;
+    background:white;
+    padding:30px;
+    border-radius:18px;
+    box-shadow:0 10px 30px rgba(0,0,0,0.08);
+    font-family:Arial, sans-serif;
+}
+
+.login-title{
+    font-size:22px;
+    font-weight:bold;
+    text-align:center;
+    margin-bottom:20px;
+    color:#0f172a;
+}
+
+.form-group{
+    margin-bottom:15px;
+}
+
+input{
+    width:100%;
+    height:45px;
+    border-radius:10px;
+    border:1px solid #ddd;
+    padding:10px 12px;
+    font-size:14px;
+    transition:0.2s;
+}
+
+input:focus{
+    border-color:#0d6efd;
+    outline:none;
+    box-shadow:0 0 0 3px rgba(13,110,253,0.15);
+}
+
+.btn-login{
+    width:100%;
+    padding:12px;
+    background:linear-gradient(135deg,#0d6efd,#084298);
+    color:white;
+    border:none;
+    border-radius:10px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:10px;
+    transition:0.2s;
+}
+
+.btn-login:hover{
+    opacity:0.9;
+}
+
+.error-box{
+    background:#fee2e2;
+    color:#b91c1c;
+    padding:10px;
+    border-radius:10px;
+    margin-bottom:15px;
+    font-size:14px;
+    font-weight:600;
+}
+
+.footer-text{
+    text-align:center;
+    margin-top:15px;
+    font-size:12px;
+    color:#6b7280;
+}
+
+.register-link{
+    text-align:center;
+    margin-top:15px;
+    font-size:13px;
+}
+
+.register-link a{
+    color:#0d6efd;
+    font-weight:600;
+    text-decoration:none;
+}
+
+.register-link a:hover{
+    text-decoration:underline;
+}
+
+</style>
+
+<div class="login-container">
+
+    <div class="login-title">
+        Connexion
+    </div>
+
+    {% if error %}
+        <div class="error-box">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <input type="text" name="username" placeholder="Nom d'utilisateur">
+        </div>
+
+        <div class="form-group">
+            <input type="password" name="password" placeholder="Mot de passe">
+        </div>
+
+        <button type="submit" class="btn-login">
+            Se connecter
+        </button>
+
+    </form>
+
+    <!-- 🔥 REGISTER LINK -->
+    <!-- <div class="register-link">
+        Pas encore de compte ?
+        <a href="{% url 'SuiviApp:register' %}">
+            Créer un compte
+        </a>
+    </div> -->
+
+    <div class="footer-text">
+        Système de gestion AV / ERP
+    </div>
+
+</div>

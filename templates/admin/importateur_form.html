@@ -1,0 +1,57 @@
+{% extends 'admin/home.html' %}
+{% block content %}
+
+<style>
+
+.form-box{
+    max-width:700px;
+    margin:auto;
+    background:white;
+    padding:30px;
+    border-radius:18px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.05);
+}
+
+</style>
+
+<div class="form-box">
+
+    <h3 class="mb-4">
+        {{ title }}
+    </h3>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <div class="mb-3">
+            {{ form.nom.label_tag }}
+            {{ form.nom }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.adresse.label_tag }}
+            {{ form.adresse }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.num_telephone.label_tag }}
+            {{ form.num_telephone }}
+        </div>
+
+        <div class="mb-3">
+            {{ form.email.label_tag }}
+            {{ form.email }}
+        </div>
+
+        <button class="btn btn-primary w-100">
+
+            Enregistrer
+
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}
