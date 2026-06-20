@@ -29,6 +29,15 @@ DEBUG = False
 
 ALLOWED_HOSTS = [ ".onrender.com",]
 
+
+# ======= en local 
+# DEBUG = True
+
+# # ALLOWED_HOSTS = [
+# #     "127.0.0.1",
+# #     "localhost",
+# # ]
+
 AUTH_USER_MODEL = 'SuiviApp.CustomUser'
 # Application definition
 
@@ -86,6 +95,14 @@ DATABASES = {
 
 }
 
+# ===== en local =====
+
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
 
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
 

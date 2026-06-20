@@ -101,7 +101,21 @@ td{
     color:#64748b;
     font-size:14px;
 }
+.btn-edit{
+    background:#f59e0b;
+}
 
+.btn-edit:hover{
+    background:#d97706;
+}
+
+.btn-delete{
+    background:#dc2626;
+}
+
+.btn-delete:hover{
+    background:#b91c1c;
+}
 </style>
 
 <div class="card-box">
@@ -142,13 +156,25 @@ td{
                     </span>
                 </td>
 
-                <td>
-                    <!-- VIEW BUTTON -->
-                    <a href="{% url 'SuiviApp:av_produit_detail' p.uuid %}"
-                       class="btn btn-view">
-                        <i class="bi bi-eye"></i> Voir
-                    </a>
-                </td>
+                <td style="display:flex;gap:8px;">
+
+    <a href="{% url 'SuiviApp:av_produit_detail' p.uuid %}"
+       class="btn btn-view">
+        <i class="bi bi-eye"></i> Voir
+    </a>
+
+    <a href="{% url 'SuiviApp:av_produit_update' p.uuid %}"
+       class="btn btn-edit">
+        <i class="bi bi-pencil"></i> Modifier
+    </a>
+
+    <a href="{% url 'SuiviApp:av_produit_delete' p.uuid %}"
+       class="btn btn-delete"
+       onclick="return confirm('Voulez-vous vraiment supprimer ce produit ?');">
+        <i class="bi bi-trash"></i> Supprimer
+    </a>
+
+</td>
             </tr>
 
         {% empty %}

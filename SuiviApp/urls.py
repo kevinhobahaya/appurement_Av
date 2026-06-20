@@ -115,7 +115,7 @@ path("produits/", av_produit_list, name="av_produit_list"),
 # path("av/<int:av_id>/produit/add/", av_produit_create, name="av_produit_create"),
 
 # path("produit/<uuid:uuid>/edit/", av_produit_update, name="av_produit_update"),
-# path("produit/<uuid:uuid>/delete/", av_produit_delete, name="av_produit_delete"),
+path("produit/<uuid:uuid>/delete/", av_produit_delete, name="av_produit_delete"),
 path("declarations/", declaration_list, name="declaration_list"),
     path(
         "produits/",

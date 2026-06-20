@@ -839,27 +839,23 @@ def av_produit_detail(request, uuid):
 # =========================
 # SUPPRIMER AVPRODUIT
 # =========================
-def av_produit_delete(request, pk):
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib import messages
 
+def av_produit_delete(request, uuid):
     produit = get_object_or_404(
         AVProduit,
         uuid=uuid
     )
 
-    if request.method == "POST":
+    produit.delete()
 
-        produit.delete()
+    messages.success(
+        request,
+        "Produit AV supprimé avec succès"
+    )
 
-        messages.success(
-            request,
-            "Produit AV supprimé avec succès"
-        )
-
-        return redirect("SuiviApp:av_produit_list")
-
-    return render(request, "avProduit/avproduit_delete.html", {
-        "produit": produit
-    })
+    return redirect("SuiviApp:av_produit_list")
 
 from django.shortcuts import render, redirect
 from django.contrib import messages
