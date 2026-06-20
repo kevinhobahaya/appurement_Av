@@ -86,18 +86,7 @@ DATABASES = {
 
 }
 
-import os
 
-if os.environ.get("CREATE_SUPERUSER"):
-    from django.contrib.auth import get_user_model
-    User = get_user_model()
-
-    if not User.objects.filter(username="admin").exists():
-        User.objects.create_superuser(
-            username=os.environ.get("ADMIN_USERNAME", "admin"),
-            email=os.environ.get("ADMIN_EMAIL", "admin@test.com"),
-            password=os.environ.get("ADMIN_PASSWORD", "admin@occkasindi")
-        )
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
