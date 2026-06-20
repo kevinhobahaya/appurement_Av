@@ -1,6 +1,5 @@
 from django.core.management.base import BaseCommand
 from django.contrib.auth import get_user_model
-import os
 
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
@@ -12,3 +11,4 @@ class Command(BaseCommand):
                 email="kahayabanywesizekevin@gmail.com",
                 password="admin@occkasindi2310"
             )
+            self.stdout.write("Admin created")
